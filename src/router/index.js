@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {sessionSetItem} from '../common/util'
 
 // 按需（懒）加载
-const Home = () => import( /* webpackChunkName: "home" */ '../views/home')
-const My = () => import( /* webpackChunkName: "home" */ '../views/my')
+const Home = () => import(/* webpackChunkName: "home" */ '../pages/home')
+const My = () => import(/* webpackChunkName: "home" */ '../pages/my')
+const ProductDetail = () =>
+    import(/* webpackChunkName: "detail" */ '../pages/ProductDetail')
 
 Vue.use(Router)
 
@@ -13,7 +14,8 @@ let base = `${process.env.BASE_URL}` // 动态获取二级目录
 const router = new Router({
     // mode: 'history', // 路由有两种模式：history、hash，想要不带#号就选history，默认是hash模式
     base: base,
-    routes: [{
+    routes: [
+        {
             path: '/',
             name: 'home',
             component: Home
@@ -22,6 +24,11 @@ const router = new Router({
             path: '/my',
             name: 'my',
             component: My
+        },
+        {
+            path: '/detail',
+            name: 'ProductDetail',
+            component: ProductDetail
         },
         {
             path: '*',
@@ -38,18 +45,12 @@ const router = new Router({
             }
         }
     }
-});
+})
 
 router.beforeEach((to, from, next) => {
-<<<<<<< HEAD
-    sessionSetItem('tabBar', to.name);
-    return next()
-=======
     // 做些什么，通常权限控制就在这里做。
-
     // 这里必须写next()，否则页面会阻止下一步操作。
-    next();
->>>>>>> master
-});
+    next()
+})
 
-export default router;
+export default router
